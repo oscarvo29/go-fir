@@ -20,5 +20,5 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Fprintln("Listening on port: %s", webPort)
+	fmt.Println("Listening on port:", webPort)
 }
