@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+
+	"github.com/google/gopacket"
 )
 
 const webPort = "80"
@@ -21,4 +23,11 @@ func main() {
 	}
 
 	fmt.Println("Listening on port:", webPort)
+	handle := GetPcapPacket()
+	defer handle.Close()
+
+	packetSource := gopacket.NewPacketSource(handle, handle.LinkType())
+	for packet := range packetSource.Packets() {
+		WriteToFile("cap.txt", packet.Dump())
+	}
 }
